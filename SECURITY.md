@@ -1,38 +1,26 @@
-# Security policy
+# Security
 
 ## Reporting a vulnerability
 
-Email **sam@dropbars.be** with details. PGP isn't required; if you'd like to
-encrypt, ask in a first message and a key will be provided.
+Email **sam@dropbars.be**, or open a private advisory on GitHub
+(Security → Report a vulnerability). Please don't use a public issue for a real
+vulnerability.
 
-I'll acknowledge within 72 hours. For verified issues I'll work with you on a
-fix and coordinated disclosure, with credit in the changelog unless you prefer
-to stay anonymous.
+I'm a solo maintainer, so there's no formal SLA, but I read these and I'll work
+with you on a fix. Happy to credit you in the changelog unless you'd rather stay
+anonymous.
 
-## Scope
+## What this is, and what actually leaves your machine
 
-In scope:
+bike-power-model is a local library. It reads FIT and GPX files, runs the
+physics on your machine, and writes FIT files back. It doesn't phone home.
 
-- The `bike-power-model` Python library and its command-line interface.
-- The Garmin Power Guide FIT writer (messages 352/353) and the FIT/GPX parsing
-  paths.
-- The dependency supply chain (a malicious or vulnerable dependency shipped in
-  a release).
+The only data that leaves your machine is what you configure. If you point it at
+a weather or elevation service, it sends that service the coordinates and
+timestamps it needs, nothing more. Every one of those features has an offline
+fallback, so the whole thing runs with no network at all (the test suite proves
+it, with sockets blocked).
 
-Out of scope:
-
-- Third-party services the library can optionally talk to (weather APIs,
-  elevation data sources). Report those to the provider.
-- Denial-of-service by feeding the library deliberately huge inputs. Parse
-  what you'd actually ride.
-
-## Data handling
-
-The library reads FIT and GPX files, which can contain personal data (GPS
-tracks, heart rate, power, body metrics). It processes them locally and does
-not transmit them anywhere. Optional network features (weather, elevation) send
-only what they need (coordinates, timestamps) to the endpoint you configure,
-and every one has a documented offline fallback.
-
-If a finding involves personal data leaving the machine unexpectedly, flag it
-prominently in the report subject so I can prioritise.
+That keeps the realistic surface small: a malformed FIT or GPX that crashes or
+hangs the parser, or a dependency shipping a known CVE in a release. Those are
+the things worth reporting.

@@ -1,5 +1,10 @@
 # bike-power-model
 
+[![CI](https://github.com/sam-dumont/bike-power-model-lib/actions/workflows/ci.yml/badge.svg)](https://github.com/sam-dumont/bike-power-model-lib/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/bike-power-model?label=pypi)](https://pypi.org/project/bike-power-model/)
+[![Python](https://img.shields.io/pypi/pyversions/bike-power-model)](https://pypi.org/project/bike-power-model/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+
 A cycling physics engine for power, speed, and race-time prediction, plus a
 generator for Garmin Power Guide FIT files (messages 352/353).
 
