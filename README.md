@@ -50,13 +50,15 @@ Python 3.11, 3.12, or 3.13. No system libraries for the core install.
 
 ## Documentation
 
+- [`docs/FORMAT_SPEC.md`](docs/FORMAT_SPEC.md): the Garmin Power Guide FIT format
+  (messages 352/353), reverse-engineered. This is the one part that's already
+  solved and stable.
 - [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md): local setup, tests, the offline gate
 - [`docs/RELEASING.md`](docs/RELEASING.md): how a (pre-)release is cut and published
-- [`CONTRIBUTING.md`](CONTRIBUTING.md): what is welcome and how to set up
+- [`CONTRIBUTING.md`](CONTRIBUTING.md): how to contribute and set up
 - [`CHANGELOG.md`](CHANGELOG.md): what changed, per version
 
-Reference docs for the physics, the FIT format, and the validation method ship
-with the engine.
+Reference docs for the physics and the validation method land with the engine.
 
 ## License
 
