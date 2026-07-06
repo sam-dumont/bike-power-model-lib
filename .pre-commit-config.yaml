@@ -1,7 +1,21 @@
-# Pre-commit hooks. Install once with: uv run pre-commit install
-# (or `pre-commit install` if you have pre-commit on your PATH).
+# Pre-commit hooks. Install once, including the commit-msg stage:
+#   uv run pre-commit install --hook-type pre-commit --hook-type commit-msg
+
+# Lint/test/secret hooks run at the pre-commit stage only. The trailer strip
+# below overrides this to run at commit-msg, so nothing runs twice per commit.
+default_stages: [pre-commit]
 
 repos:
+  # Contribution is credited outside the commit trail, so no commit carries a
+  # Co-authored-by trailer. This commit-msg hook strips it whatever adds it.
+  - repo: local
+    hooks:
+      - id: strip-co-authored-by
+        name: strip Co-Authored-By trailers
+        language: system
+        entry: python3 scripts/strip_coauthored_by.py
+        stages: [commit-msg]
+
   # Lint + format. These call the project's own ruff through uv, so the
   # version matches CI exactly and there is no pre-commit-vs-CI skew.
   - repo: local

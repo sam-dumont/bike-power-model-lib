@@ -27,10 +27,11 @@ gate, the wheel smoke, `make check`).
 
 ## Pre-commit hooks
 
-The repo ships `.pre-commit-config.yaml`. Install it once:
+The repo ships `.pre-commit-config.yaml`. Install it once, including the
+commit-message stage:
 
 ```bash
-uv run pre-commit install
+uv run pre-commit install --hook-type pre-commit --hook-type commit-msg
 ```
 
 They run on every commit and block it if anything fails:
@@ -39,6 +40,8 @@ They run on every commit and block it if anything fails:
   matches CI
 - `pytest -x`, fast-fail on the first failing test
 - `gitleaks`, secret scan on staged changes
+- a commit-msg hook that strips any `Co-authored-by` trailer (contribution is
+  credited outside the commit trail)
 
 Don't bypass with `--no-verify`. If a hook fails, fix the underlying issue:
 re-stage after ruff auto-fixes, or run the failing test locally.
@@ -72,6 +75,10 @@ Open an issue before you write the code for any of these:
 - Docstrings explain the *why*: the calling convention, the failure mode, the
   observation that motivated the design. The code already says the *what*.
 - Tests: integration over unit. Validate behaviour, not implementation.
+
+## Code of conduct
+
+By participating you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## License
 

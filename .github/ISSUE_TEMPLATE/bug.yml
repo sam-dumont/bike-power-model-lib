@@ -1,0 +1,54 @@
+name: 🐛 Bug
+description: Something is broken in the library or its command-line interface.
+title: "[bug] "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For "the predicted number looks wrong" use a Discussion instead: a
+        result you disagree with isn't a bug if the model genuinely doesn't
+        know. A bug is a crash, a wrong type, a broken import, a value that
+        can't be right (negative time, NaN power).
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What broke
+      description: One paragraph. What you called, what you expected, what happened.
+      placeholder: |
+        Called `bpm ...` on a flat 40 km GPX and it raised a
+        KeyError instead of returning a plan.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: Minimal steps. Include the command or a short code snippet.
+      placeholder: |
+        1. pip install --pre bike-power-model
+        2. bpm status
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      description: Version (`pip show bike-power-model`), Python version, OS.
+      placeholder: |
+        bike-power-model 0.0.1a0 on Python 3.13, macOS 15
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Traceback / output
+      description: The full traceback or output. Trim any secrets first.
+      render: shell
+    validations:
+      required: false

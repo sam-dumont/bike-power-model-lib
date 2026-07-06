@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🔒 Security vulnerability
+    url: https://github.com/sam-dumont/bike-power-model-lib/security/advisories/new
+    about: Use GitHub's private security-advisory flow, not a public issue. See SECURITY.md.
+  - name: 💬 Question or "is this expected"
+    url: https://github.com/sam-dumont/bike-power-model-lib/discussions
+    about: For "how do I…" or "is this result expected" — a discussion, not an issue.

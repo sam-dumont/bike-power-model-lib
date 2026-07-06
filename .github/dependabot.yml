@@ -1,0 +1,16 @@
+version: 2
+updates:
+  # Keep the CI actions current. Version-update PRs are opened for review, not
+  # auto-merged, so a bump is a reviewable diff. Python dependency updates are
+  # deliberately NOT managed here: the supply-chain posture is to bump one
+  # package at a time with a reason. Security fixes for pip come from the
+  # repository-level Dependabot security setting instead.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: ci

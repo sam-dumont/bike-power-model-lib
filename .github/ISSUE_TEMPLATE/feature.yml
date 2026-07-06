@@ -1,0 +1,39 @@
+name: ✨ Feature request
+description: A capability you'd like in the library.
+title: "[feature] "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The library is in pre-release: the engine is still landing, so some
+        requests may already be planned. Concrete beats abstract: if you have
+        a specific ride or use-case where this matters, say so.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What you're trying to do that doesn't work today.
+      placeholder: |
+        Planning a multi-day stage race where each stage finishes at
+        altitude. I want carry-over fatigue between stages instead of
+        each stage being planned independently.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal (optional)
+      description: How you'd see it working. If you don't know, leave it blank: the problem statement is what matters.
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What you do today instead
+      description: Workarounds you use, or other tools that solve this.
+    validations:
+      required: false
