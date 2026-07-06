@@ -1,0 +1,115 @@
+name: Release
+
+# Releases are tag-driven. Push a PEP 440 tag and this builds that exact
+# version and publishes it to PyPI via trusted publishing (OIDC, no token).
+#
+#   git tag v0.0.1a0 && git push origin v0.0.1a0   # alpha
+#   git tag v0.1.0b1 && git push origin v0.1.0b1    # beta
+#   git tag v1.0.0   && git push origin v1.0.0      # final
+#
+# hatch-vcs reads the version straight from the tag, so the tag IS the
+# version. A tag with an a/b/rc suffix is marked as a pre-release on GitHub;
+# PyPI derives pre-release status from the version string itself.
+#
+# See docs/RELEASING.md for the one-time PyPI trusted-publisher setup.
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Build only, do not publish (uses the current ref, not a tag)"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build distributions
+    runs-on: ubuntu-latest
+    if: github.repository == 'sam-dumont/bike-power-model-lib'
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+      prerelease: ${{ steps.meta.outputs.prerelease }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - uses: astral-sh/setup-uv@v7
+      - run: uv python install 3.13
+
+      - name: Build
+        run: uv build
+
+      - name: Read built version + classify pre-release
+        id: meta
+        run: |
+          VERSION=$(uv run --isolated --no-project --with dist/bike_power_model-*.whl \
+            python -c "import bike_power_model as m; print(m.__version__)")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          if [[ "$VERSION" =~ (a|b|rc)[0-9]+ || "$VERSION" == *dev* ]]; then
+            echo "prerelease=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "prerelease=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "Built version: $VERSION"
+          ls -la dist/
+
+      - name: Wheel install smoke
+        run: |
+          uv run --isolated --no-project \
+            --with dist/bike_power_model-*.whl \
+            python scripts/wheel_smoke.py
+
+      - uses: actions/upload-artifact@v5
+        with:
+          name: dist
+          path: dist/
+
+  github-release:
+    name: GitHub release
+    needs: [build]
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v5
+        with:
+          name: dist
+          path: dist/
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: v${{ needs.build.outputs.version }}
+          prerelease: ${{ needs.build.outputs.prerelease }}
+          generate_release_notes: true
+          files: |
+            dist/*.whl
+            dist/*.tar.gz
+
+  pypi-publish:
+    name: Publish to PyPI
+    needs: [build]
+    # Only real tag pushes publish. A workflow_dispatch dry run stops at build.
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/bike-power-model/
+    permissions:
+      # Trusted publishing: PyPI mints a short-lived token from this OIDC
+      # identity. No API token is stored in the repo.
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v5
+        with:
+          name: dist
+          path: dist/
+      - name: Publish
+        uses: pypa/gh-action-pypi-publish@release/v1

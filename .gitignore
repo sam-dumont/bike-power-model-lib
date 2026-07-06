@@ -1,0 +1,39 @@
+# Python build + cache artefacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+
+# Version file is generated at build time by hatch-vcs (from the git tag).
+src/bike_power_model/_version.py
+
+# Test + coverage artefacts
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Environment files (.env.example is a committed template; real env stays local)
+.env
+.env.*
+!.env.example
+
+# FIT files carry per-second GPS / HR / power and are personal data. Block by
+# default; only small, curated format-reference FITs under samples/fit/ ship.
+*.fit
+*.FIT
+!samples/fit/*.fit
+!samples/fit/*.FIT
+
+# Editor / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Local agent / tooling scratch
+.claude/
