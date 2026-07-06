@@ -2,7 +2,7 @@
 
 ## Reporting a vulnerability
 
-Email **sam@dropbars.be**, or open a private advisory on GitHub
+Email **security@bikepowermodel.fit**, or open a private advisory on GitHub
 (Security → Report a vulnerability). Please don't use a public issue for a real
 vulnerability.
 

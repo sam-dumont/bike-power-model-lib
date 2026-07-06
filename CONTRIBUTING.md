@@ -46,28 +46,28 @@ They run on every commit and block it if anything fails:
 Don't bypass with `--no-verify`. If a hook fails, fix the underlying issue:
 re-stage after ruff auto-fixes, or run the failing test locally.
 
-## What's welcome
+## Contributing changes
 
-- Bug fixes with a regression test in `tests/`.
-- New Garmin FIT message decodes, with a round-trip test.
-- Per-sector surface Crr refinements with a citation (a race organiser road
-  book, public ride telemetry, a lab measurement).
-- Per-rider power-duration wiring against APIs you own the key for
-  (intervals.icu, Strava, Wahoo).
-- Performance improvements with a before/after benchmark in the PR.
+Obvious bug fixes are always welcome: fix it, add a regression test in
+`tests/`, open the PR. If it's genuinely a bug and the fix is small and clear,
+you don't need to ask first.
 
-## What needs a discussion first
+Everything else, open an issue or a discussion before you write the code: new
+features, new dependencies, anything that changes the model's numbers, any
+structural change. It's a small project with firm opinions about scope, so a
+quick conversation up front saves you from a PR that doesn't fit.
 
-Open an issue before you write the code for any of these:
+New dependencies get extra scrutiny: the supply-chain posture is deliberate
+(pinned, audited, added one at a time with a reason). "Latest is better" isn't
+a reason.
 
-- New external dependencies. The supply-chain posture is deliberate: pinned,
-  audited, added one at a time with a reason. "Latest is better" is not a
-  reason.
-- Architectural shifts: a new public entry point, a new constructor, a change
-  to a public signature.
-- Anything that changes the model's numbers. Predictions are validated per
-  rider and per terrain type; a change that improves one case and quietly
-  breaks another is a regression, not a win.
+## LLM-assisted contributions
+
+Welcome. This project is built with Claude, heavily, so a PR written with an
+LLM's help is not a problem. The one requirement: you understand your own
+change and can reason about it. Explain the *why* in the PR, be ready to defend
+the approach in review, and don't send code you can't stand behind. Pasted
+output you can't explain will get closed.
 
 ## Code style
 
