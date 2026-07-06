@@ -21,7 +21,7 @@ jobs:
       matrix:
         python-version: ["3.11", "3.12", "3.13"]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - uses: astral-sh/setup-uv@v7
         with:
@@ -52,7 +52,7 @@ jobs:
     # runs the suite with sockets blocked; a module that reached out at
     # import time would fail here. It stays green for every release.
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
@@ -65,7 +65,7 @@ jobs:
     name: Supply chain audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           # Full history so the secret scan covers past commits, not just HEAD.
           fetch-depth: 0
@@ -83,7 +83,7 @@ jobs:
           uvx pip-audit -r audit-requirements.txt
 
       - name: Gitleaks (secret scan)
-        uses: gitleaks/gitleaks-action@v2
+        uses: gitleaks/gitleaks-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -92,7 +92,7 @@ jobs:
     needs: [quality, offline, security]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           # hatch-vcs derives the version from tags, so fetch them.
           fetch-depth: 0
@@ -113,7 +113,7 @@ jobs:
             --with dist/bike_power_model-*.whl \
             python scripts/wheel_smoke.py
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
           name: dist
           path: dist/
