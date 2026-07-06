@@ -28,7 +28,7 @@ A Power Guide FIT file contains:
 
 Architecture is **big-endian** (architecture byte = 1 in definition records).
 
-## Message 352 — Power Guide Summary
+## Message 352: Power Guide Summary
 
 One per file. Contains rider profile, physics parameters, and aggregate stats.
 
@@ -73,7 +73,7 @@ All values confirmed from device-exported FIT files. Note: CdA may vary from def
 
 All values confirmed from device-exported FIT files (April 2026).
 
-## Message 353 — Power Guide Split
+## Message 353: Power Guide Split
 
 N per file (one per course segment). Contains the per-segment power target and geometry.
 
